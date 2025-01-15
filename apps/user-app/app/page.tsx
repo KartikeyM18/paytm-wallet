@@ -1,14 +1,13 @@
+import { getServerSession } from "next-auth";
+import { redirect } from 'next/navigation'
+import { authOptions } from "./lib/auth";
 
-import { Button } from "@repo/ui/button";
-
-export default async function Home() {
-  return (
-    <>
-    <h1 className="text-3xl font-bold underline">
-
-      Hello world!
-    </h1>
-      <Button >Push</Button>
-    </>
-  );
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  if (session?.user) {
+    redirect('/dashboard')
+  } else {
+    redirect('/api/auth/signin')
+  }
+  
 }
